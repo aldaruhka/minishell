@@ -1,6 +1,5 @@
 NAME = minishell
-SRC = minishell.c \
-	echo.c
+SRC = minishell.c
 OBJ = $(SRC:.c=.o)
 HEADER = minishell.h
 
