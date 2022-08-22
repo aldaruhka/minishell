@@ -6,55 +6,74 @@
 /*   By: dwren <dwren@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:41:22 by dwren             #+#    #+#             */
-/*   Updated: 2022/08/02 22:55:27 by dwren            ###   ########.fr       */
+/*   Updated: 2022/07/27 17:25:35 by dwren            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/libft.h"
 
-void	main_work(t_lexer_list *s)
+char	*ft_readline(char *str)
 {
-	while (s != NULL)
+	str = readline("minishell:");
+	if (str != NULL)
+		add_history(str);
+	return(str);
+}
+
+void	preparser(char *str)
+{
+	int	i;
+	int	flag;
+
+	flag = 0;
+	i = 0;
+	while (str[i])
 	{
-		if (s->type == ECHO)
-			echo(s->content);
-		if (s->type == PIPE)
-			(void);
-		if (s->type == REDIR_IN)
-			(void)s;
-		if (s->type == PROGRAMM)
-			(void)s;
-		s = s->next;
+		if (str[i] == '\'')
+		{
+			i++;
+			flag++;
+			while (str[i] != '\'' && str[i])
+				i++;
+			if (str[i] == '\'')
+					flag++;
+		}
+		if (str[i] == '\"')
+		{
+			i++;
+			flag++;
+			while (str[i] != '\"' && str[i])
+				i++;
+			if (str[i] == '\"')
+					flag++;
+		}
+		i++;
+	}
+	if (flag % 2 == 1)
+	{
+		printf("ERROR : Unclosed quotes\n");
+		exit(1);
 	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_lexer_list	*s;
+	t_data_shell		*data_list;
+	// char *exearg[2];
+	// exearg[0] = "ls";
+	// exearg[1] = NULL;
+	// execve("/bin/ls", exearg, envp);
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
-	s = malloc(sizeof(t_lexer_list));
-	s->content = (char *[]){"echo", "-n", "My job is epic!", NULL};
-	s->type = ECHO;
-	s->next = malloc(sizeof(t_lexer_list));
-
-	s->next->content = (char *[]){NULL};
-	s->next->type = PIPE;
-	s->next->next = malloc(sizeof(t_lexer_list));
-
-	s->next->next->content = (char *[]){"grep", "job", NULL};
-	s->next->next->type = PROGRAMM;
-	s->next->next->next = malloc(sizeof(t_lexer_list));
-
-	/*s->next->next->next->content = (char *[]){"my_file"};
-	s->next->next->next->type = WRITE_IN_FILE;
-	s->next->next->next->next = NULL;*/
-
-	SIGWINCH
-	main_work(s);
+	data_list = NULL;
+	data_list = initialization(data_list, envp);
+	while (1)
+	{
+		data_list->str = ft_readline(data_list->str);
+		preparser(data_list->str);
+		data_list->lexer_list = lexer(data_list->str, data_list->lexer_list);
+		data_list->command_list = parser(data_list->lexer_list, data_list->command_list, data_list->envp, data_list->p_id, data_list->status);
+	}
 	return (0);
-	//
 }
