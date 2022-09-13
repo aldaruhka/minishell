@@ -1,5 +1,11 @@
 NAME = minishell
-SRC = minishell.c
+SRC = minishell.c \
+	initialization.c \
+	lexer.c \
+	parser.c \
+	programm_part.c \
+	envp_functions.c \
+	echo.c
 OBJ = $(SRC:.c=.o)
 HEADER = minishell.h
 

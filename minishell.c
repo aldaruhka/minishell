@@ -59,21 +59,33 @@ void	preparser(char *str)
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_data_shell		*data_list;
-	// char *exearg[2];
-	// exearg[0] = "ls";
-	// exearg[1] = NULL;
-	// execve("/bin/ls", exearg, envp);
 
 	(void)argc;
 	(void)argv;
-	data_list = NULL;
-	data_list = initialization(data_list, envp);
-	while (1)
+	data_list = initialization(envp);
+	(void)envp;
+	printf("\n\n\n");
+	change_in_envp(data_list->envp, "_=zhopa");
+	change_in_envp(data_list->envp, "_=kek");
+	change_in_envp(0, 0);
+	for (int i=0;data_list->envp[i];i++)
+		printf("%s\n", data_list->envp[i]);
+	/*while (1)
 	{
+		t_command_list *lst = data_list->command_list;
+		while (lst)
+		{
+			for(int i=0;lst->content && lst->content[i];i++)
+				printf("%s ", lst->content[i]);
+			printf("\n");
+			lst = lst->next;
+		}
 		data_list->str = ft_readline(data_list->str);
 		preparser(data_list->str);
 		data_list->lexer_list = lexer(data_list->str, data_list->lexer_list);
 		data_list->command_list = parser(data_list->lexer_list, data_list->command_list, data_list->envp, data_list->p_id, data_list->status);
-	}
+		if (data_list != NULL)
+			programm_part(data_list);
+	}*/
 	return (0);
 }

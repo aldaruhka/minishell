@@ -61,8 +61,19 @@ typedef struct s_data_shell
 	t_command_list	*command_list;
 }t_data_shell;
 
-t_data_shell	*initialization(t_data_shell *data_list, char **envp);
+t_data_shell	*initialization(char **envp);
 t_command_list	*parser(t_lexer_list *lexer_list, t_command_list *command_list, char **envp, char *p_id, char *status);
 t_lexer_list	*lexer(char *str, t_lexer_list *lexer_list);
+
+void			add_in_envp(char ***envp, char *new);
+//new подавать в виде "NAME=", без символа "$"
+char			*get_from_envp(char **envp, char *name);
+//name подавать в виде "NAME", без символа "$". Возвращает всё, что после "="
+void			del_from_envp(char **envp, char *del);
+//del подавать в виде "NAME", без символа "$"
+void			change_in_envp(char **envp, char *change);
+//change подавать в виде "NAME=", без символа "$"
+
+void			programm_part(t_data_shell *data);
 
 #endif
