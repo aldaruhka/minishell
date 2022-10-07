@@ -6,7 +6,7 @@
 /*   By: dwren <dwren@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/26 20:06:59 by dwren             #+#    #+#             */
-/*   Updated: 2022/09/01 04:19:40 by dwren            ###   ########.fr       */
+/*   Updated: 2022/09/15 05:44:00 by dwren            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void	exec_without_pipes(t_data_shell *data)
 
 void	programm_part(t_data_shell *data)
 {
+	char		**paths;
+
+	paths = ft_split(data->envp[found_in_envp_path(data->envp)] + 5, ':');
 	if (is_pipes_presence(data->command_list))
 		exec_with_pipes(data);
 	else

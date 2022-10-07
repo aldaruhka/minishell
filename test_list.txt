@@ -1,0 +1,38 @@
+echo kek
+echo -n kek
+echo $USER
+
+cd libft
+cd ./libft
+cd ../minishell
+cd /Users/dwren/
+cd /Users/$USER/
+
+pwd
+
+export
+export USER
+export KEK=kek
+export KEK=$USER
+export KEK+=isKEK
+
+unset USER
+
+env
+
+exit
+
+cat -e < input_file -n
+cat -e -n < input_file
+cat < input_file -e -n
+
+cat input_fule > output_1 > output_2
+
+echo '"$USER"'
+echo "'$USER'"
+echo $"$USER"
+echo $USER/$PWD
+echo $PWD/Desktop
+
+ls > file | cat
+ls | < file cat
